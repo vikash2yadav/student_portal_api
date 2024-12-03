@@ -5,4 +5,7 @@ module.exports = (app) => {
   
   // student route
   app.use("/student", require("./students"));
+
+  // Subject route
+  app.use("/subject", require("./subjects"));
 };

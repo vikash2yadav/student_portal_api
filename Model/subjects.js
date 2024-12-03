@@ -1,35 +1,45 @@
 const { Op } = require("sequelize");
 const { STATUS_CODES } = require("../Config/constant");
-const {
-  students: studentSchema,
-  marks: markSchema,
-  subjects: subjectSchema,
-} = require("../Database/Schema/index");
+const { subjects: subjectSchema } = require("../Database/Schema/index");
 
-class studentModel {
-  // add student
+class subjectModel {
+  // add subject
   async add(bodyData) {
-    const { email } = bodyData;
+    const { name, code } = bodyData;
 
-    const existEmail = await studentSchema.findOne({
+    const existSubject = await subjectSchema.findOne({
       where: {
-        email,
+        name,
       },
     });
 
-    if (existEmail) {
+    if (existSubject) {
       return {
         status: STATUS_CODES.ALREADY_REPORTED,
+        message: "name exist",
       };
     }
 
-    return await studentSchema.create(bodyData);
+    const existcode = await subjectSchema.findOne({
+      where: {
+        code,
+      },
+    });
+
+    if (existcode) {
+      return {
+        status: STATUS_CODES.ALREADY_REPORTED,
+        message: "code exist",
+      };
+    }
+
+    return await subjectSchema.create(bodyData);
   }
 
-  // update student
+  // update subject
   async update(bodyData) {
-    const { id, email } = bodyData;
-    let checkData = await studentSchema.findOne({
+    const { name, code } = bodyData;
+    let checkData = await subjectSchema.findOne({
       where: {
         id,
         is_delete: false,
@@ -42,30 +52,45 @@ class studentModel {
       };
     }
 
-    const existEmail = await studentSchema.findOne({
+    const existName = await subjectSchema.findOne({
       where: {
-        email,
+        name,
         id: { [Op.ne]: id },
       },
     });
 
-    if (existEmail) {
+    if (existName) {
       return {
         status: STATUS_CODES.ALREADY_REPORTED,
+        message: "Name exist",
       };
     }
 
-    return await studentSchema.update(bodyData, {
+    const existCode = await subjectSchema.findOne({
+      where: {
+        code,
+        id: { [Op.ne]: id },
+      },
+    });
+
+    if (existCode) {
+      return {
+        status: STATUS_CODES.ALREADY_REPORTED,
+        message: "Code exist",
+      };
+    }
+
+    return await subjectSchema.update(bodyData, {
       where: {
         id,
       },
     });
   }
 
-  // update status
+  // update subject
   async status(bodyData) {
     const { id, status } = bodyData;
-    let checkData = await studentSchema.findOne({
+    let checkData = await subjectSchema.findOne({
       where: {
         id,
         is_delete: false,
@@ -78,7 +103,7 @@ class studentModel {
       };
     }
 
-    return await studentSchema.update(
+    return await subjectSchema.update(
       { status },
       {
         where: {
@@ -88,9 +113,9 @@ class studentModel {
     );
   }
 
-  // delete student
+  // delete subject
   async delete(id) {
-    let checkData = await studentSchema.findOne({
+    let checkData = await subjectSchema.findOne({
       where: {
         id,
         is_delete: false,
@@ -103,7 +128,7 @@ class studentModel {
       };
     }
 
-    return await studentSchema.update(
+    return await subjectSchema.update(
       { is_delete: true },
       {
         where: {
@@ -113,23 +138,13 @@ class studentModel {
     );
   }
 
-  // getById student
+  // getById subject
   async getById(id) {
-    let checkData = await studentSchema.findOne({
+    let checkData = await subjectSchema.findOne({
       where: {
         id,
         is_delete: false,
       },
-      include: [
-        {
-          model: markSchema,
-          attributes: ["mark", "total"],
-          include: {
-            model: subjectSchema,
-            attributes: ["name", "code"],
-          },
-        },
-      ],
     });
 
     if (!checkData) {
@@ -141,23 +156,13 @@ class studentModel {
     return checkData;
   }
 
-  // list student
+  // list subject
   async list() {
-    return await studentSchema.findAll({
+    return await subjectSchema.findAll({
       where: {
         is_delete: false,
       },
-      include: [
-        {
-          model: markSchema,
-          attributes: ["mark", "total"],
-          include: {
-            model: subjectSchema,
-            attributes: ["name", "code"],
-          },
-        },
-      ],
     });
   }
 }
-module.exports = studentModel;
+module.exports = subjectModel;

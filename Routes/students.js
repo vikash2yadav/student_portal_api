@@ -4,16 +4,16 @@ const studentController = new (require("../Controller/students"))();
 
 const router = require("express").Router();
 
-router.route("/add").post(authentication.check, studentController.add);
+router.route("/add").post(studentController.add);
 
-router.route("/update").put(authentication.check, studentController.update);
+router.route("/update").put(studentController.update);
 
-router.route("/delete").delete(authentication.check, studentController.delete);
+router.route("/status").put(studentController.status);
 
-router.route("/get/:id").get(authentication.check, studentController.getById);
+router.route("/delete/:id").delete(studentController.delete);
+
+router.route("/get/:id").get(studentController.getById);
 
 router.route("/list").get(studentController.list);
-
-router.route("/subject/list").get(studentController.subjectList);
 
 module.exports = router;

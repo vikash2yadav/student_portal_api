@@ -1,16 +1,15 @@
 const { STATUS_CODES } = require("../Config/constant");
 
-const studentModel = new (require("../Model/students"))();
+const subjectModel = new (require("../Model/subjects"))();
 
-class studentController {
-  // add student
+class subjectController {
+  // add subject
   async add(req, res) {
     try {
-      let data = await studentModel.add(req?.body);
+      let data = await subjectModel.add(req?.body);
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
-        res.handler.conflict(undefined, "Exist");
-        return ;
+        return res.handler.conflict(undefined, data?.message);
       }
 
       return res.handler.success(data, "Added");
@@ -19,19 +18,17 @@ class studentController {
     }
   }
 
-  // update student
+  // update subject
   async update(req, res) {
     try {
-      let data = await studentModel.update(req?.body);
+      let data = await subjectModel.update(req?.body);
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
-        res.handler.notFound(undefined, "NOT Found");
-      return;
+        return res.handler(undefined, "NOT Found");
       }
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
-        res.handler.conflict(undefined, "Exist");
-        return;
+        return res.handler(undefined, data?.message);
       }
 
       return res.handler.success(data, "Updated");
@@ -40,13 +37,13 @@ class studentController {
     }
   }
 
-  // update status
+  // update subject status
   async status(req, res) {
     try {
-      let data = await studentModel.status(req?.body);
+      let data = await subjectModel.status(req?.body);
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler.notFound(undefined, "NOT Found");
+        return res.handler(undefined, "NOT Found");
       }
 
       return res.handler.success(data, "Changed");
@@ -55,10 +52,10 @@ class studentController {
     }
   }
 
-  // delete student
+  // delete subject
   async delete(req, res) {
     try {
-      let data = await studentModel.delete(req?.params?.id);
+      let data = await subjectModel.delete(req?.params?.id);
 
       if (data?.status === STATUS_CODES.NOT_FOUND) {
         return res.handler.notFound(undefined, "Not Found");
@@ -70,10 +67,10 @@ class studentController {
     }
   }
 
-  // getById student
+  // getById subject
   async getById(req, res) {
     try {
-      let data = await studentModel.getById(req?.params?.id);
+      let data = await subjectModel.getById(req?.params?.id);
 
       if (data?.status === STATUS_CODES.NOT_FOUND) {
         return res.handler.notFound(undefined, "Not Found");
@@ -85,10 +82,10 @@ class studentController {
     }
   }
 
-  // list student
+  // list subject
   async list(req, res) {
     try {
-      let data = await studentModel.list();
+      let data = await subjectModel.list();
 
       return res.handler.success(data);
     } catch (error) {
@@ -96,4 +93,4 @@ class studentController {
     }
   }
 }
-module.exports = studentController;
+module.exports = subjectController;

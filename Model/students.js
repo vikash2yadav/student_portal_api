@@ -133,5 +133,15 @@ class studentModel {
       ],
     });
   }
+
+
+    // list subject
+    async subjectList() {
+      return await subjectSchema.findAll({
+        where: {
+          is_delete: false,
+        },
+      });
+    }
 }
 module.exports = studentModel;

@@ -77,5 +77,16 @@ class studentController {
       res.handler.serverError(error);
     }
   }
+
+    // list subject
+    async subjectList(req, res) {
+      try {
+        let data = await studentModel.subjectList();
+  
+        return res.handler.success(data);
+      } catch (error) {
+        res.handler.serverError(error);
+      }
+    }
 }
 module.exports = studentController;

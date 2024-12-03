@@ -12,6 +12,8 @@ router.route("/delete").delete(authentication.check, studentController.delete);
 
 router.route("/get/:id").get(authentication.check, studentController.getById);
 
-router.route("/list").get(authentication.check, studentController.list);
+router.route("/list").get(studentController.list);
+
+router.route("/subject/list").get(studentController.subjectList);
 
 module.exports = router;

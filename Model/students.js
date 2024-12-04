@@ -5,7 +5,6 @@ const {
   marks: markSchema,
   subjects: subjectSchema,
 } = require("../Database/Schema/index");
-
 class studentModel {
   // add student
   async add(bodyData) {
@@ -161,15 +160,16 @@ class studentModel {
   }
 
 
-    // add student mark
-    async addMarks(bodyData) {
-     bodyData?.marks?.map(async (mark)=>{
-      await markSchema.create({student_id: bodyData?.studentId, subject_id: mark?.subject, mark: mark?.marks, total: mark?.total});
-     })
-  
-      return {
-        status: STATUS_CODES?.SUCCESS
-      };
-    }
+  // add student mark
+  async addMarks(bodyData) {
+    bodyData?.marks?.map(async (mark) => {
+      await markSchema.create({ student_id: bodyData?.studentId, subject_id: mark?.subject, mark: mark?.marks, total: mark?.total });
+    })
+
+    return {
+      status: STATUS_CODES?.SUCCESS
+    };
+  }
+
 }
 module.exports = studentModel;

@@ -1,5 +1,4 @@
 const { STATUS_CODES } = require("../Config/constant");
-
 const studentModel = new (require("../Model/students"))();
 
 class studentController {
@@ -10,7 +9,7 @@ class studentController {
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
         res.handler.conflict(undefined, "Email already Exist");
-        return ;
+        return;
       }
 
       return res.handler.success(data, "Student Added Successfully");
@@ -26,7 +25,7 @@ class studentController {
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
         res.handler.notFound(undefined, "Student NOT Found");
-      return;
+        return;
       }
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
@@ -97,8 +96,8 @@ class studentController {
   }
 
 
-   // add student mark
-   async addMarks(req, res) {
+  // add student mark
+  async addMarks(req, res) {
     try {
       let data = await studentModel.addMarks(req?.body);
       return res.handler.success(data, "Mark Added Successfully");
@@ -106,5 +105,6 @@ class studentController {
       res.handler.serverError(error);
     }
   }
+
 }
 module.exports = studentController;

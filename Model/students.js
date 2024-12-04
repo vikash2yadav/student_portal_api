@@ -162,7 +162,7 @@ class studentModel {
 
   // add student mark
   async addMarks(bodyData) {
-    bodyData?.marks?.map(async (mark) => {
+    bodyData?.length > 0 && bodyData?.marks?.map(async (mark) => {
       await markSchema.create({ student_id: bodyData?.studentId, subject_id: mark?.subject, mark: mark?.marks, total: mark?.total });
     })
 

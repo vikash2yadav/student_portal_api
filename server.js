@@ -9,7 +9,7 @@ require("./Database/Schema/index");
 
 const server = createServer(app);
 
-app.use("/STUDENT_PORTAL/images", express.static(__dirname + "/Routes/"));
+app.use("/STUDENT_PORTAL/images", express.static(__dirname + "/Assets/"));
 
 // middlewares
 app.use(express.json());

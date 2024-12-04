@@ -67,6 +67,10 @@ module.exports = (sequelize, DataTypes) => {
       profile_picture: {
         allowNull: true,
         type: DataTypes.TEXT,
+        // get() {
+        //   const value = this.getDataValue("profile_picture");
+        //   return value ? `${process.env.FRONTEND_IMAGE_PATH}/students/${value}` : null;
+        // },
       },
       createdAt: {
         allowNull: false,

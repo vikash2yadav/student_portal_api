@@ -12,7 +12,7 @@ class subjectController {
         return res.handler.conflict(undefined, data?.message);
       }
 
-      return res.handler.success(data, "Added");
+      return res.handler.success(data, "Subject Added Successfully");
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -24,14 +24,14 @@ class subjectController {
       let data = await subjectModel.update(req?.body);
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler(undefined, "NOT Found");
+        return res.handler(undefined, "Subject NOT Found");
       }
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
         return res.handler(undefined, data?.message);
       }
 
-      return res.handler.success(data, "Updated");
+      return res.handler.success(data, "Subject Updated Successfully");
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -43,10 +43,10 @@ class subjectController {
       let data = await subjectModel.status(req?.body);
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler(undefined, "NOT Found");
+        return res.handler(undefined, "Subject NOT Found");
       }
 
-      return res.handler.success(data, "Changed");
+      return res.handler.success(data, "Subject Status Changed Successfully");
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -58,10 +58,10 @@ class subjectController {
       let data = await subjectModel.delete(req?.params?.id);
 
       if (data?.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler.notFound(undefined, "Not Found");
+        return res.handler.notFound(undefined, "Subject Not Found");
       }
 
-      return res.handler.success(data, "Deleted");
+      return res.handler.success(data, "Subject Deleted Successfully");
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -73,7 +73,7 @@ class subjectController {
       let data = await subjectModel.getById(req?.params?.id);
 
       if (data?.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler.notFound(undefined, "Not Found");
+        return res.handler.notFound(undefined, "Subject Not Found");
       }
 
       return res.handler.success(data);

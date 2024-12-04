@@ -159,5 +159,17 @@ class studentModel {
       ],
     });
   }
+
+
+    // add student mark
+    async addMarks(bodyData) {
+     bodyData?.marks?.map(async (mark)=>{
+      await markSchema.create({student_id: bodyData?.studentId, subject_id: mark?.subject, mark: mark?.marks, total: mark?.total});
+     })
+  
+      return {
+        status: STATUS_CODES?.SUCCESS
+      };
+    }
 }
 module.exports = studentModel;

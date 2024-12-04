@@ -16,4 +16,6 @@ router.route("/get/:id").get(studentController.getById);
 
 router.route("/list").get(studentController.list);
 
+router.route("/mark/add").post(studentController.addMarks);
+
 module.exports = router;

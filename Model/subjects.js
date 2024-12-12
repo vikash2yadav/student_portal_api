@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { STATUS_CODES } = require("../Config/constant");
+const { STATUS_CODES, STATUS_MESSAGES } = require("../Config/constant");
 const { subjects: subjectSchema } = require("../Database/Schema/index");
 
 class subjectModel {
@@ -16,7 +16,7 @@ class subjectModel {
     if (existSubject) {
       return {
         status: STATUS_CODES.ALREADY_REPORTED,
-        message: "name exist",
+        message: STATUS_MESSAGES.EXITS.SUBJECT,
       };
     }
 
@@ -29,7 +29,7 @@ class subjectModel {
     if (existcode) {
       return {
         status: STATUS_CODES.ALREADY_REPORTED,
-        message: "code exist",
+        message: STATUS_MESSAGES.EXITS.SUB_CODE,
       };
     }
 
@@ -62,7 +62,7 @@ class subjectModel {
     if (existName) {
       return {
         status: STATUS_CODES.ALREADY_REPORTED,
-        message: "Name exist",
+        message: STATUS_MESSAGES.EXITS.SUBJECT,
       };
     }
 
@@ -76,7 +76,7 @@ class subjectModel {
     if (existCode) {
       return {
         status: STATUS_CODES.ALREADY_REPORTED,
-        message: "Code exist",
+        message: STATUS_MESSAGES.EXITS.SUB_CODE,
       };
     }
 

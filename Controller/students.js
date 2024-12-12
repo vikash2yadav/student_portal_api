@@ -1,4 +1,4 @@
-const { STATUS_CODES, STATUS_MESSAGES, EXITS } = require("../Config/constant");
+const { STATUS_CODES, STATUS_MESSAGES, EXITS, NOT_FOUND } = require("../Config/constant");
 const studentModel = new (require("../Model/students"))();
 
 class studentController {
@@ -8,7 +8,7 @@ class studentController {
       let data = await studentModel.add(req?.body);
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
-        res.handler.conflict(undefined, EXITS.STUDENT);
+        res.handler.conflict(undefined, STATUS_MESSAGES.EXITS.STUDENT);
         return;
       }
 
@@ -24,12 +24,12 @@ class studentController {
       let data = await studentModel.update(req?.body);
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
-        res.handler.notFound(undefined, "Student NOT Found");
+        res.handler.notFound(undefined, STATUS_MESSAGES.NOT_FOUND.STUDENT);
         return;
       }
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
-        res.handler.conflict(undefined, "Email already Exist");
+        res.handler.conflict(undefined, STATUS_MESSAGES.EXITS.STUDENT);
         return;
       }
 
@@ -45,10 +45,10 @@ class studentController {
       let data = await studentModel.status(req?.body);
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler.notFound(undefined, " Student NOT Found");
+        return res.handler.notFound(undefined, STATUS_MESSAGES.NOT_FOUND.STUDENT);
       }
 
-      return res.handler.success(data, "Student Status Changed Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.STUDENT.STATUS_CHANGE);
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -60,7 +60,7 @@ class studentController {
       let data = await studentModel.delete(req?.params?.id);
 
       if (data?.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler.notFound(undefined, "Student Not Found");
+        return res.handler.notFound(undefined, STATUS_MESSAGES.NOT_FOUND.STUDENT);
       }
 
       return res.handler.success(data, STATUS_MESSAGES.STUDENT.DELETE);
@@ -75,7 +75,7 @@ class studentController {
       let data = await studentModel.getById(req?.params?.id);
 
       if (data?.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler.notFound(undefined, "Student Not Found");
+        return res.handler.notFound(undefined, STATUS_MESSAGES.NOT_FOUND.STUDENT);
       }
 
       return res.handler.success(data);
@@ -102,10 +102,10 @@ class studentController {
       let data = await studentModel.addMarks(req?.body);
 
       if (data?.status === STATUS_CODES.NOT_VALID_DATA) {
-        return res.handler.notFound(undefined, "Marks Data Not Valid");
+        return res.handler.notFound(undefined, STATUS_MESSAGES.NOT_VALID.MARKS);
       }
 
-      return res.handler.success(data, "Mark Added Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.MARKS.ADD);
     } catch (error) {
       res.handler.serverError(error);
     }

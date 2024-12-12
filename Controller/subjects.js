@@ -1,4 +1,4 @@
-const { STATUS_CODES } = require("../Config/constant");
+const { STATUS_CODES, STATUS_MESSAGES } = require("../Config/constant");
 
 const subjectModel = new (require("../Model/subjects"))();
 
@@ -12,7 +12,7 @@ class subjectController {
         return res.handler.conflict(undefined, data?.message);
       }
 
-      return res.handler.success(data, "Subject Added Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.SUBJECT.ADD);
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -24,14 +24,14 @@ class subjectController {
       let data = await subjectModel.update(req?.body);
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler(undefined, "Subject NOT Found");
+        return res.handler(undefined, STATUS_MESSAGES.NOT_FOUND.SUBJECT);
       }
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
         return res.handler(undefined, data?.message);
       }
 
-      return res.handler.success(data, "Subject Updated Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.SUBJECT.UPDATE);
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -43,10 +43,10 @@ class subjectController {
       let data = await subjectModel.status(req?.body);
 
       if (data.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler(undefined, "Subject NOT Found");
+        return res.handler(undefined, STATUS_MESSAGES.NOT_FOUND.SUBJECT);
       }
 
-      return res.handler.success(data, "Subject Status Changed Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.SUBJECT.STATUS_CHANGE);
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -58,10 +58,10 @@ class subjectController {
       let data = await subjectModel.delete(req?.params?.id);
 
       if (data?.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler.notFound(undefined, "Subject Not Found");
+        return res.handler.notFound(undefined, STATUS_MESSAGES.NOT_FOUND.SUBJECT);
       }
 
-      return res.handler.success(data, "Subject Deleted Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.SUBJECT.DELETE);
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -73,7 +73,7 @@ class subjectController {
       let data = await subjectModel.getById(req?.params?.id);
 
       if (data?.status === STATUS_CODES.NOT_FOUND) {
-        return res.handler.notFound(undefined, "Subject Not Found");
+        return res.handler.notFound(undefined, STATUS_MESSAGES.NOT_FOUND.SUBJECT);
       }
 
       return res.handler.success(data);

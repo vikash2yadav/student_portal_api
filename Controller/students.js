@@ -1,4 +1,4 @@
-const { STATUS_CODES } = require("../Config/constant");
+const { STATUS_CODES, STATUS_MESSAGES, EXITS } = require("../Config/constant");
 const studentModel = new (require("../Model/students"))();
 
 class studentController {
@@ -8,11 +8,11 @@ class studentController {
       let data = await studentModel.add(req?.body);
 
       if (data.status === STATUS_CODES.ALREADY_REPORTED) {
-        res.handler.conflict(undefined, "Email already Exist");
+        res.handler.conflict(undefined, EXITS.STUDENT);
         return;
       }
 
-      return res.handler.success(data, "Student Added Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.STUDENT.ADD);
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -33,7 +33,7 @@ class studentController {
         return;
       }
 
-      return res.handler.success(data, "Student Updated Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.STUDENT.UPDATE);
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -63,7 +63,7 @@ class studentController {
         return res.handler.notFound(undefined, "Student Not Found");
       }
 
-      return res.handler.success(data, "Student Deleted Successfully");
+      return res.handler.success(data, STATUS_MESSAGES.STUDENT.DELETE);
     } catch (error) {
       res.handler.serverError(error);
     }
@@ -100,6 +100,11 @@ class studentController {
   async addMarks(req, res) {
     try {
       let data = await studentModel.addMarks(req?.body);
+
+      if (data?.status === STATUS_CODES.NOT_VALID_DATA) {
+        return res.handler.notFound(undefined, "Marks Data Not Valid");
+      }
+
       return res.handler.success(data, "Mark Added Successfully");
     } catch (error) {
       res.handler.serverError(error);

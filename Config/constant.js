@@ -30,3 +30,16 @@ exports.STATUS_CODES  = {
     NOT_IMPLEMENTED: 501,
     BAD_GATEWAY: 502,
 }
+
+exports.STATUS_MESSAGES = {
+    STUDENT:{
+        ADD: "Student Added Successfully",
+        UPDATE: "Student Updated Successfully",
+        DELETE: ""
+    }
+}
+
+exports.EXITS = {
+    STUDENT: 'Email already Exist',
+    SUBJECT: ''
+}

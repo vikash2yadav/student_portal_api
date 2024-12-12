@@ -162,6 +162,13 @@ class studentModel {
 
   // add student mark
   async addMarks(bodyData) {
+
+    if(!bodyData?.studentId || !bodyData?.marks){
+      return {
+        status: STATUS_CODES.NOT_VALID_DATA
+      }
+    }
+
     bodyData?.length > 0 && bodyData?.marks?.map(async (mark) => {
       await markSchema.create({ student_id: bodyData?.studentId, subject_id: mark?.subject, mark: mark?.marks, total: mark?.total });
     })
